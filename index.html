@@ -290,6 +290,12 @@
             border: 1px solid rgba(0, 0, 0, 0.06);
             background: var(--white-primary);
         }
+        
+        /* Neuzugang: Kleinere Margin für Info-Boxen wenn sie direkt aufeinander folgen */
+        .info-box + .info-box {
+            margin-top: 30px;
+        }
+
 
         .info-box::after {
             content: '';
@@ -536,7 +542,6 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
         <section class="hero">
             <div class="container">
                 <div class="hero-content">
@@ -547,7 +552,6 @@
             </div>
         </section>
 
-        <!-- Table of Contents -->
         <section>
             <div class="container">
                 <div class="toc">
@@ -559,13 +563,15 @@
                         <a href="#personal">Personal & HR</a>
                         <a href="#operations">Operations & Projektmanagement</a>
                         <a href="#branchen">Branchenspezifische Szenarien</a>
+                        <a href="#operations-intern">Interne Operations & Entwicklung</a>
+                        <a href="#nuancierungen">Nuancierungen & Perspektiven</a>
+                        <a href="#implementierung">Implementierung & Betrieb</a>
                         <a href="#entscheidung">Schnell-Entscheidungsmatrix</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Kundenservice -->
         <section id="kundenservice">
             <div class="container">
                 <div class="section-header">
@@ -641,7 +647,6 @@
             </div>
         </section>
 
-        <!-- Vertrieb -->
         <section id="vertrieb" class="section-alternate">
             <div class="container">
                 <div class="section-header">
@@ -710,7 +715,6 @@
             </div>
         </section>
 
-        <!-- Finanzwesen -->
         <section id="finanzen">
             <div class="container">
                 <div class="section-header">
@@ -779,7 +783,6 @@
             </div>
         </section>
 
-        <!-- Personal -->
         <section id="personal" class="section-alternate">
             <div class="container">
                 <div class="section-header">
@@ -841,7 +844,6 @@
             </div>
         </section>
 
-        <!-- Operations -->
         <section id="operations">
             <div class="container">
                 <div class="section-header">
@@ -917,7 +919,6 @@
             </div>
         </section>
 
-        <!-- Branchenspezifisch -->
         <section id="branchen" class="section-alternate">
             <div class="container">
                 <div class="section-header">
@@ -999,7 +1000,7 @@
                                 <td class="method">Rules</td>
                                 <td class="cost">8.000–18.000</td>
                                 <td class="llm-nein">Nein</td>
-                                <td>Regelbasiertes Matching. Keine Intelligenz erforderlich.</td>
+                                D<td>Regelbasiertes Matching. Keine Intelligenz erforderlich.</td>
                             </tr>
                             <tr>
                                 <td><strong>Immobilien:</strong> Instandhaltungs-Priorisierung</td>
@@ -1021,11 +1022,98 @@
             </div>
         </section>
 
-        <!-- Entscheidungsmatrix -->
-        <section id="entscheidung">
+        <section id="operations-intern">
             <div class="container">
                 <div class="section-header">
                     <span class="section-tag">07</span>
+                    <h2>Interne Operations & Entwicklung</h2>
+                    <p>Zusätzliche Anwendungsfälle zur Steigerung der internen Effizienz</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Interne IT-Operations</h3>
+                    <ul>
+                        <li><strong>IT-Support-Bot (LLM + RAG):</strong> Ein interner Assistent, der Fragen zur IT-Policy, Software-Nutzung oder Fehlerbehebung basierend auf der internen Wissensdatenbank beantwortet.</li>
+                        <li><strong>Log-Analyse (Klassisches ML):</strong> Anomalie-Erkennung in Server-Logs, um Sicherheitsprobleme oder Systemausfälle proaktiv zu erkennen, bevor sie kritisch werden.</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h3>Software-Entwicklung (als Dienstleistung)</h3>
+                    <p>Für Dienstleister, die selbst Software entwickeln, ist dies oft der profitabelste Hebel:</p>
+                    <ul>
+                        <li><strong>Code-Generierung & Assistenz (LLM):</strong> Einsatz von Tools (z.B. GitHub Copilot), um die Effizienz der eigenen Entwickler um 20-40% zu steigern. Das LLM assistiert bei der Erstellung von Code, Tests und Dokumentation.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="nuancierungen" class="section-alternate">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">08</span>
+                    <h2>Nuancierungen & neue Perspektiven</h2>
+                    <p>Diskutable Einschätzungen und sich schnell entwickelnde Anwendungsfälle</p>
+                </div>
+
+                <div class="info-box decision-matrix">
+                    <h3>Rechnungs-OCR (Finanzen): "Nein" zu LLM ist diskutabel</h3>
+                    <p>Die Einstufung "Nein" für LLM bei Rechnungs-OCR ist aus Kostensicht bei hohem Volumen korrekt. Spezial-Tools sind hier oft günstiger.</p>
+                    <p>Aus technischer Sicht hat sich das Bild jedoch gewandelt: Moderne multimodale LLMs (wie GPT-4o) sind extrem gut im "Zero-Shot"-Extrahieren von Daten aus PDFs und Bildern geworden, oft <strong>ohne</strong> das Training, das Spezial-Tools benötigen. Für Unternehmen mit vielen variablen Rechnungsformaten und einem mittleren Volumen könnte ein LLM-Ansatz heute flexibler und schneller zu implementieren sein. Das "Nein" ist also zu absolut.</p>
+                </div>
+
+                <div class="info-box decision-matrix">
+                    <h3>Fehlender Use Case: LLM als Interface für strukturierte Daten</h3>
+                    <p>Der Leitfaden grenzt LLMs (Text) und ML (Zahlen/Tabellen) korrekt ab. Ein wichtiger hybrider Use Case fehlt jedoch: LLMs als <strong>"Natural Language Interface" für Datenbanken</strong>.</p>
+                    <p>Ein Anwendungsfall wie "Zeige mir den Umsatz pro Berater im letzten Quartal" ist ein klassisches "Rules"-Problem (SQL-Query). Ein LLM kann jedoch die natürliche Sprache des Nutzers in diesen SQL-Query übersetzen. Das LLM rechnet also nicht selbst, sondern *bedient* die strukturierte Datenwelt und macht sie für Nicht-Techniker zugänglich.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="implementierung">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">09</span>
+                    <h2>Strategische Überlegungen: Implementierung & Betrieb</h2>
+                    <p>Wichtige Weichenstellungen vor dem Projektstart</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>"Build vs. Buy" (Eigenentwicklung vs. Standardsoftware)</h3>
+                    <p>Der Leitfaden ist primär aus der "Build"-Perspektive geschrieben (Projekte mit Setup-Kosten). Viele dieser Use Cases können heute aber auch eingekauft ("Buy") werden.</p>
+                    <p><strong>Beispiel:</strong> Statt einen "Konversationellen Support-Chatbot" für CHF 25.000 selbst zu bauen, kauft man ein modernes Support-Tool (z.B. Intercom, Zendesk), das diese Funktion bereits als Standard-Feature (via "Buy") integriert hat.</p>
+                    <p>Die strategische Entscheidung lautet: Sollen wir das selbst bauen (Build) oder eine Standardsoftware kaufen (Buy), die das Problem bereits mit ML/LLM löst?</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Wartung & Lebenszyklus (Nach dem Go-Live)</h3>
+                    <p>Die Arbeit endet nicht mit der Implementierung. Jede Methode hat spezifische Wartungsanforderungen:</p>
+                    <ul>
+                        <li><strong>Rules:</strong> Müssen manuell von Experten angepasst werden, wenn sich Geschäftsprozesse ändern. Sie sind "spröde" (brittle) und erfordern Disziplin.</li>
+                        <li><strong>Klassisches ML:</strong> Benötigt technisches Monitoring auf "Data Drift" (wenn sich die Realität von den Trainingsdaten entfernt) und periodisches Retraining mit frischen Daten.</li>
+                        <li><strong>LLM (RAG):</strong> Das Modell selbst ist statisch, aber die <strong>Wissensdatenbank (RAG)</strong> muss aktuell gehalten werden. Veraltete Dokumente im RAG-System sind ein grosses Problem und führen zu Falschaussagen.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-box">
+                    <h3>Voraussetzungen (Daten!)</h3>
+                    <p>Die Wahl der Methode hängt fundamental von den verfügbaren Daten ab:</p>
+                    <ul>
+                        <li><strong>Rules:</strong> Benötigt klares, artikulierbares Expertenwissen und definierte, stabile Geschäftsprozesse.</li>
+                        <li><strong>Klassisches ML:</strong> Benötigt zwingend Tausende von historischen, <strong>gelabelten Beispieldaten</strong> (z.B. "dieser Kunde hat gekündigt", "dieses Ticket war Kategorie B"). Ohne Label keine Klassifikation.</li>
+                        <li><strong>LLM (RAG):</strong> Benötigt eine saubere, durchsuchbare und <strong>aktuelle Dokumentenbasis</strong> (Wissensdatenbank, PDFs, Intranet). "Garbage in, garbage out" ist hier das Hauptrisiko.</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+
+        <section id="entscheidung" class="section-alternate">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">10</span>
                     <h2>Schnell-Entscheidungsmatrix</h2>
                     <p>Systematische Kriterien zur Wahl der optimalen Methode</p>
                 </div>

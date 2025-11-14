@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Cases für Dienstleistungsunternehmen | ML & LLM Entscheidungsleitfaden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Dune-inspirierte CSS Variablen */
+        :root {
+            --section-spacing: 120px;
+            --white-primary: #f8f7f4;
+            --white-secondary: #f0efe9;
+            --shadow-color: #2c2b2a;
+            --accent-color: #c2baa8;
+            --text-primary: #333230;
+            --text-secondary: #6a6862;
+            --heading-font: 'Montserrat', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --container-width: 1440px;
+            --header-height: 80px;
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            --grain-opacity: 0.03;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--body-font);
+            color: var(--text-primary);
+            line-height: 1.6;
+            background-color: var(--white-primary);
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        /* Film grain overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;charset=utf-8,%3Csvg viewBox%3D%220 0 512 512%22 xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter id%3D%22a%22%3E%3CfeTurbulence type%3D%22fractalNoise%22 baseFrequency%3D%220.75%22 stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect width%3D%22512%22 height%3D%22512%22 filter%3D%22url%28%23a%29%22 opacity%3D%22.075%22%2F%3E%3C%2Fsvg%3E');
+            pointer-events: none;
+            z-index: 10000;
+            opacity: var(--grain-opacity);
+            mix-blend-mode: multiply;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Header */
+        .site-header {
+            background-color: rgba(248, 247, 244, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            z-index: 1000;
+        }
+
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+
+        .logo h1 {
+            font-family: var(--heading-font);
+            font-size: 20px;
+            font-weight: 400;
+            color: var(--text-primary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 180px;
+            padding-bottom: 100px;
+            background-color: var(--white-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 30%;
+            width: 40%;
+            height: 150px;
+            background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.02) 20%, rgba(0,0,0,0.03) 50%, rgba(0,0,0,0.02) 80%, rgba(0,0,0,0) 100%);
+            transform: perspective(800px) rotateX(80deg) scaleY(4);
+            transform-origin: bottom center;
+            z-index: 1;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: var(--heading-font);
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            font-weight: 200;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            max-width: 700px;
+        }
+
+        /* Section */
+        section {
+            padding: var(--section-spacing) 0;
+            position: relative;
+        }
+
+        .section-alternate {
+            background-color: var(--white-secondary);
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            max-width: 900px;
+        }
+
+        .section-tag {
+            display: inline-block;
+            color: var(--text-secondary);
+            font-size: 11px;
+            font-weight: 400;
+            margin-bottom: 16px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .section-header h2 {
+            font-family: var(--heading-font);
+            font-size: clamp(28px, 4vw, 42px);
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-weight: 200;
+            line-height: 1.2;
+        }
+
+        .section-header p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* Table Styles */
+        .table-container {
+            position: relative;
+            overflow-x: auto;
+            margin: 40px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--white-primary);
+            font-size: 14px;
+            position: relative;
+        }
+
+        table::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.02);
+            z-index: -1;
+        }
+
+        thead {
+            background: var(--text-primary);
+            color: var(--white-primary);
+        }
+
+        th {
+            padding: 20px 16px;
+            text-align: left;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            font-family: var(--heading-font);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 18px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            vertical-align: top;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        tbody tr {
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 0, 0, 0.015);
+        }
+
+        .method {
+            color: var(--text-primary);
+            font-weight: 400;
+            font-size: 13px;
+        }
+
+        .cost {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        .llm-ja {
+            color: #2d5c3f;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+        }
+
+        .llm-nein {
+            color: #8b4545;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 12px;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: 40px;
+            margin: 60px 0;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: var(--white-primary);
+        }
+
+        .info-box::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.02);
+            z-index: -1;
+        }
+
+        .info-box.decision-matrix {
+            border-left: 3px solid var(--text-primary);
+        }
+
+        .info-box.summary {
+            background: var(--white-secondary);
+        }
+
+        .info-box.warning {
+            border-left: 3px solid #8b4545;
+        }
+
+        .info-box h3 {
+            font-family: var(--heading-font);
+            font-size: 20px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .info-box p {
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-box li {
+            padding-left: 24px;
+            margin-bottom: 12px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .info-box li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation TOC */
+        .toc {
+            background: var(--white-secondary);
+            padding: 40px;
+            margin: 40px 0;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .toc::after {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.02);
+            z-index: -1;
+        }
+
+        .toc h3 {
+            font-family: var(--heading-font);
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .toc a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            position: relative;
+            padding-bottom: 4px;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .toc a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: var(--text-primary);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .toc a:hover {
+            color: var(--text-primary);
+        }
+
+        .toc a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* Check/Cross symbols */
+        .check {
+            display: inline-block;
+            font-size: 18px;
+            color: #2d5c3f;
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--white-secondary);
+            padding: 80px 0 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .site-footer p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            letter-spacing: 0.08em;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .container {
+                padding: 0 30px;
+            }
+
+            section {
+                padding: 80px 0;
+            }
+
+            .hero {
+                padding-top: 140px;
+                padding-bottom: 80px;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th, td {
+                padding: 14px 12px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .hero {
+                padding-top: 120px;
+            }
+
+            .table-container {
+                overflow-x: scroll;
+            }
+
+            table {
+                font-size: 12px;
+                min-width: 800px;
+            }
+
+            th, td {
+                padding: 12px 10px;
+            }
+
+            .info-box {
+                padding: 30px 20px;
+            }
+
+            .toc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Print styles */
+        @media print {
+            .grain-overlay,
+            .site-header,
+            .toc {
+                display: none;
+            }
+
+            body {
+                background: white;
+            }
+
+            section {
+                padding: 40px 0;
+                page-break-inside: avoid;
+            }
+
+            table {
+                page-break-inside: auto;
+            }
+
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grain-overlay"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <h1>ML Leitfaden</h1>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-tag">Entscheidungsleitfaden</span>
+                    <h1>Use Cases in Dienstleistungsunternehmen</h1>
+                    <p class="hero-subtitle">Systematische Übersicht zur optimalen Methodenauswahl zwischen regelbasierten Systemen, klassischem Machine Learning und Large Language Models – mit expliziter Bewertung der LLM-Eignung und Begründung für jeden Use Case.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Table of Contents -->
+        <section>
+            <div class="container">
+                <div class="toc">
+                    <h3>Inhaltsverzeichnis</h3>
+                    <div class="toc-grid">
+                        <a href="#kundenservice">Kundenservice & Support</a>
+                        <a href="#vertrieb">Vertrieb & Marketing</a>
+                        <a href="#finanzen">Finanzwesen & Administration</a>
+                        <a href="#personal">Personal & HR</a>
+                        <a href="#operations">Operations & Projektmanagement</a>
+                        <a href="#branchen">Branchenspezifische Szenarien</a>
+                        <a href="#entscheidung">Schnell-Entscheidungsmatrix</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kundenservice -->
+        <section id="kundenservice">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">01</span>
+                    <h2>Kundenservice und Support</h2>
+                    <p>Automatisierung von Support-Prozessen, Sentiment-Analyse und konversationelle Assistenten</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ticket-Kategorisierung<br><small style="color: var(--text-secondary);">unter 20 Kategorien, strukturiert</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">5.000–10.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Klare Kategorien mit Keywords lösbar. LLM überdimensioniert und verteuert Lösung um Faktor 3–5 ohne Mehrwert.</td>
+                            </tr>
+                            <tr>
+                                <td>Ticket-Kategorisierung<br><small style="color: var(--text-secondary);">Freitext, über 100 Kategorien</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">XGBoost</small></td>
+                                <td class="cost">15.000–30.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Text-Klassifikation mit TF-IDF + ML deutlich günstiger und schneller. LLM nur wenn Kategorien sich wöchentlich ändern.</td>
+                            </tr>
+                            <tr>
+                                <td>FAQ-Bot<br><small style="color: var(--text-secondary);">Standardfragen, Entscheidungsbaum</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">50–200/Mt</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Regelbasierte Chatbots vollkommen ausreichend. LLM-Kosten nicht gerechtfertigt für simple Entscheidungsbäume.</td>
+                            </tr>
+                            <tr>
+                                <td>Konversationeller Support-Chatbot<br><small style="color: var(--text-secondary);">natürliche Sprache</small></td>
+                                <td class="method">LLM + RAG</td>
+                                <td class="cost">Setup: 10K–25K<br>Betrieb: 500–2K/Mt</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Natürliches Sprachverständnis und kontextabhängige Antworten sind Kernstärke von LLMs. Alternative Methoden liefern unbefriedigende User Experience.</td>
+                            </tr>
+                            <tr>
+                                <td>Sentiment-Analyse<br><small style="color: var(--text-secondary);">strukturierte Bewertungen</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">3.000–8.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Schwellenwerte und Aggregationen reichen aus. LLM-Einsatz wirtschaftlich nicht sinnvoll.</td>
+                            </tr>
+                            <tr>
+                                <td>Sentiment-Analyse<br><small style="color: var(--text-secondary);">Freitext unter 10K/Jahr</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">vortrainiert</small></td>
+                                <td class="cost">1–2/1000 Analysen</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Vortrainierte Sentiment-Modelle von Azure/AWS deutlich kostengünstiger als LLM-APIs.</td>
+                            </tr>
+                            <tr>
+                                <td>Mehrsprachige Sentiment-Analyse<br><small style="color: var(--text-secondary);">mit Nuancen</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">2–5/1000 Analysen</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Verständnis kultureller Nuancen und Kontext in mehreren Sprachen ist LLM-Stärke. Klassisches ML erreicht nicht gleiche Qualität.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vertrieb -->
+        <section id="vertrieb" class="section-alternate">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">02</span>
+                    <h2>Vertrieb und Marketing</h2>
+                    <p>Lead-Scoring, Content-Generierung und personalisierte Kundenkommunikation</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Lead-Scoring<br><small style="color: var(--text-secondary);">wenige klare Kriterien</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">Oft in CRM</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Einfache Scoring-Regeln nach Unternehmensgröße, Budget etc. benötigen kein ML oder LLM.</td>
+                            </tr>
+                            <tr>
+                                <td>Lead-Scoring<br><small style="color: var(--text-secondary);">komplexe Muster</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">XGBoost</small></td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Strukturierte CRM-Daten optimal für klassisches ML. LLMs haben bei tabellarischen Daten keinen Vorteil.</td>
+                            </tr>
+                            <tr>
+                                <td>Marketing-E-Mails<br><small style="color: var(--text-secondary);">Template-basiert</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">Minimal</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Platzhalter und Templates genügen. LLM-Overhead nicht gerechtfertigt.</td>
+                            </tr>
+                            <tr>
+                                <td>Personalisierte Marketing-Texte<br><small style="color: var(--text-secondary);">Ton/Stil angepasst</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">Setup: 5K–15K<br>Betrieb: 200–1K/Mt</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Anpassung von Argumentation, Ton und Stil ist Text-Generierung – LLM-Kernkompetenz.</td>
+                            </tr>
+                            <tr>
+                                <td>Keyword-Recherche<br><small style="color: var(--text-secondary);">Trend-Erkennung</small></td>
+                                <td class="method">Rules + ML</td>
+                                <td class="cost">10.000–25.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Datenanalyse und Pattern Recognition. LLMs nur ergänzend für Content-Ideen.</td>
+                            </tr>
+                            <tr>
+                                <td>Content-Generierung<br><small style="color: var(--text-secondary);">Entwürfe für Redakteure</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">Setup: 5K–15K<br>Betrieb: 200–1K/Mt</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Text-Generierung ist primärer LLM Use Case. Zeitersparnis 40–60% mit menschlichem Editing.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Finanzwesen -->
+        <section id="finanzen">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">03</span>
+                    <h2>Finanzwesen und Administration</h2>
+                    <p>Rechnungsverarbeitung, Vertragsanalyse und Forecasting</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Rechnungs-OCR<br><small style="color: var(--text-secondary);">Datenextraktion</small></td>
+                                <td class="method">Spezialisierte OCR<br><small style="color: var(--text-secondary);">Azure Form Recognizer</small></td>
+                                <td class="cost">1–3/1000 Seiten</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Spezialisierte OCR-Services optimiert und kostengünstig. LLMs überdimensioniert.</td>
+                            </tr>
+                            <tr>
+                                <td>Rechnungs-Kategorisierung<br><small style="color: var(--text-secondary);">nach Kostenträger</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">Random Forest</small></td>
+                                <td class="cost">15.000–30.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Klassifikation mit strukturierten Features. ML erreicht 90–95% Accuracy bei Bruchteil der LLM-Kosten.</td>
+                            </tr>
+                            <tr>
+                                <td>Vertragsanalyse<br><small style="color: var(--text-secondary);">standardisiert, klare Kriterien</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">10.000–20.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Suche nach definierten Klauseln regelbasiert lösbar.</td>
+                            </tr>
+                            <tr>
+                                <td>Vertragsanalyse<br><small style="color: var(--text-secondary);">komplex, variierend</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">Setup: 25K–60K<br>plus API-Kosten</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Semantisches Verständnis juristischer Sprache erfordert LLMs als Assistenz-System.</td>
+                            </tr>
+                            <tr>
+                                <td>Forecasting<br><small style="color: var(--text-secondary);">Zeitreihen</small></td>
+                                <td class="method">Statistisch<br><small style="color: var(--text-secondary);">ARIMA, Prophet</small></td>
+                                <td class="cost">8.000–20.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Mathematisch-statistisches Problem. LLMs bei numerischen Forecasts ungeeignet.</td>
+                            </tr>
+                            <tr>
+                                <td>Forecasting<br><small style="color: var(--text-secondary);">nichtlinear komplex</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">XGBoost</small></td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Auch bei Komplexität bleiben numerische Daten optimal für ML.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal -->
+        <section id="personal" class="section-alternate">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">04</span>
+                    <h2>Personal und HR</h2>
+                    <p>Recruiting, Mitarbeiter-Analytics und Onboarding-Systeme</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CV-Screening<br><small style="color: var(--text-secondary);">harte Kriterien</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">5.000–12.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Objektive Kriterien benötigen kein LLM. Regelbasiert kostengünstiger und transparent.</td>
+                            </tr>
+                            <tr>
+                                <td>Kandidaten-Matching<br><small style="color: var(--text-secondary);">Skill-Übertragbarkeit</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Verständnis von Synonymen und übertragbaren Fähigkeiten ist LLM-Stärke.</td>
+                            </tr>
+                            <tr>
+                                <td>Churn-Prediction<br><small style="color: var(--text-secondary);">Mitarbeiter</small></td>
+                                <td class="method">Klassisches ML<br><small style="color: var(--text-secondary);">XGBoost, RF</small></td>
+                                <td class="cost">20.000–40.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Strukturierte HR-Daten tabellarisch. ML erreicht 80–85% Accuracy optimal.</td>
+                            </tr>
+                            <tr>
+                                <td>Onboarding-Assistent<br><small style="color: var(--text-secondary);">strukturierte Prozesse</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">3.000–10.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Klare Ablaufdiagramme regelbasiert abbildbar.</td>
+                            </tr>
+                            <tr>
+                                <td>Onboarding-Assistent<br><small style="color: var(--text-secondary);">natürliche Sprache</small></td>
+                                <td class="method">LLM + RAG</td>
+                                <td class="cost">Setup: 15K–35K<br>Betrieb: 500–1.5K/Mt</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Kontextabhängige Fragen mit Firmendokumentenzugriff erfordern LLM-Fähigkeiten.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Operations -->
+        <section id="operations">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">05</span>
+                    <h2>Operations und Projektmanagement</h2>
+                    <p>Ressourcenplanung, Risiko-Assessment und Dokumentenmanagement</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ressourcen-Planung<br><small style="color: var(--text-secondary);">Einsatzoptimierung</small></td>
+                                <td class="method">Rules / OR</td>
+                                <td class="cost">10.000–25.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Optimierungsproblem mit Constraints. OR-Tools mathematisch optimal. LLMs ungeeignet.</td>
+                            </tr>
+                            <tr>
+                                <td>Projektdauer-Vorhersage<br><small style="color: var(--text-secondary);">Ressourcenbedarf</small></td>
+                                <td class="method">Klassisches ML</td>
+                                <td class="cost">15.000–30.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Vorhersage aus strukturierten Projektdaten ist ML-Aufgabe.</td>
+                            </tr>
+                            <tr>
+                                <td>Risiko-Assessment<br><small style="color: var(--text-secondary);">Scorecards</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">5.000–15.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Definierte Risikokategorien regelbasiert implementierbar.</td>
+                            </tr>
+                            <tr>
+                                <td>Risiko-Assessment<br><small style="color: var(--text-secondary);">historische Muster</small></td>
+                                <td class="method">Klassisches ML</td>
+                                <td class="cost">20.000–45.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Pattern Recognition in strukturierten Daten ist ML, nicht LLM.</td>
+                            </tr>
+                            <tr>
+                                <td>Analyse qualitativer Berichte<br><small style="color: var(--text-secondary);">Projektberichte</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">Setup: 15.000–35.000</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Extraktion von Indikatoren aus unstrukturiertem Text erfordert LLM.</td>
+                            </tr>
+                            <tr>
+                                <td>Dokumenten-Kategorisierung<br><small style="color: var(--text-secondary);">standardisiert</small></td>
+                                <td class="method">Rules / ML</td>
+                                <td class="cost">15.000–30.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Text-Klassifikation mit klaren Kategorien. TF-IDF + ML wirtschaftlicher.</td>
+                            </tr>
+                            <tr>
+                                <td>Semantische Dokumenten-Suche<br><small style="color: var(--text-secondary);">Zusammenfassungen</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">Zusätzlich 10K–25K</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Semantische Suche über Bedeutung statt Keywords ist LLM-Anwendung.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Branchenspezifisch -->
+        <section id="branchen" class="section-alternate">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">06</span>
+                    <h2>Branchenspezifische Szenarien</h2>
+                    <p>Use Cases für Treuhand, Anwaltskanzleien, Versicherungen und Immobilienverwaltung</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 24%">Use Case</th>
+                                <th style="width: 14%">Methode</th>
+                                <th style="width: 14%">Kosten (CHF)</th>
+                                <th style="width: 10%">LLM</th>
+                                <th style="width: 38%">Begründung</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Treuhand:</strong> Buchungsbeleg-Klassifikation</td>
+                                <td class="method">Rules + ML</td>
+                                <td class="cost">20.000–40.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>OCR + Regelprüfung + ML-Kategorisierung. Strukturierte Aufgabe ohne LLM-Bedarf.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Treuhand:</strong> Steuerberatungs-Assistent<br><small style="color: var(--text-secondary);">Gesetzesrecherche</small></td>
+                                <td class="method">LLM + RAG</td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Semantische Suche in Gesetzestexten mit Kontext-Verständnis erfordert LLM.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anwalt:</strong> Recherche in Gerichtsentscheiden</td>
+                                <td class="method">LLM + RAG</td>
+                                <td class="cost">25.000–60.000</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Semantische Suche übertrifft Keyword-Suche. Verständnis rechtlicher Argumentation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anwalt:</strong> Standarddokument-Erstellung<br><small style="color: var(--text-secondary);">Vorlagen</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">10.000–25.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Template-Systeme mit regelbasierter Logik ausreichend.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Anwalt:</strong> Komplexe Vertragsentwürfe</td>
+                                <td class="method">LLM (Assistenz)</td>
+                                <td class="cost">Zusätzlich 15K–40K</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>LLM-Entwürfe als Ausgangspunkt. Endfassung bleibt menschliche Verantwortung.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Versicherung:</strong> Underwriting Standard</td>
+                                <td class="method">Rules</td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Klare Tarife und Regelwerke vollständig automatisierbar ohne ML/LLM.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Versicherung:</strong> Komplexe Risikobewertung</td>
+                                <td class="method">Klassisches ML</td>
+                                <td class="cost">30.000–70.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Pattern Recognition in Schadensdaten. Strukturiert optimal für ML.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Versicherung:</strong> Schadenbearbeitung<br><small style="color: var(--text-secondary);">Dokumentenanalyse</small></td>
+                                <td class="method">LLM</td>
+                                <td class="cost">25.000–60.000</td>
+                                <td class="llm-ja">Ja</td>
+                                <td>Analyse unstrukturierter Schadenmeldungen und automatisierte Korrespondenz.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Immobilien:</strong> Zahlungszuordnung</td>
+                                <td class="method">Rules</td>
+                                <td class="cost">8.000–18.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Regelbasiertes Matching. Keine Intelligenz erforderlich.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Immobilien:</strong> Instandhaltungs-Priorisierung</td>
+                                <td class="method">Klassisches ML</td>
+                                <td class="cost">15.000–35.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Optimierung basierend auf historischen Daten ist strukturiertes ML-Problem.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Immobilien:</strong> Mieter-Kommunikation<br><small style="color: var(--text-secondary);">Standardfragen</small></td>
+                                <td class="method">Rules</td>
+                                <td class="cost">5.000–15.000</td>
+                                <td class="llm-nein">Nein</td>
+                                <td>Häufige Fragen mit Standardantworten regelbasiert lösbar.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Entscheidungsmatrix -->
+        <section id="entscheidung">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">07</span>
+                    <h2>Schnell-Entscheidungsmatrix</h2>
+                    <p>Systematische Kriterien zur Wahl der optimalen Methode</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 40%">Kriterium</th>
+                                <th style="width: 20%">Rules</th>
+                                <th style="width: 20%">Klassisches ML</th>
+                                <th style="width: 20%">LLM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Entscheidungslogik klar artikulierbar</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                            </tr>
+                            <tr>
+                                <td>Unter 50 Regeln</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                            </tr>
+                            <tr>
+                                <td>Strukturierte tabellarische Daten</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                            </tr>
+                            <tr>
+                                <td>Mehrere tausend historische Beispiele</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                            </tr>
+                            <tr>
+                                <td>Numerische Vorhersagen</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                            </tr>
+                            <tr>
+                                <td>Natürliche Sprachgenerierung</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Semantisches Textverständnis</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Unstrukturierte Dokumente</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Kontextabhängige Interpretation</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Häufig ändernde Anforderungen</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; color: var(--text-secondary);">—</td>
+                                <td style="text-align: center; font-size: 18px;"><span class="check">✓</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box summary">
+                    <h3>Kostenfaktor-Übersicht</h3>
+                    <ul>
+                        <li><strong>Regelbasierte Systeme:</strong> CHF 3.000 bis 25.000 einmalig, minimale Betriebskosten</li>
+                        <li><strong>Klassisches ML:</strong> CHF 15.000 bis 70.000 einmalig, CHF 100 bis 1.000 monatlich Betrieb</li>
+                        <li><strong>LLM-basiert:</strong> CHF 10.000 bis 60.000 einmalig, CHF 500 bis 3.000 monatlich Betrieb (API-abhängig)</li>
+                    </ul>
+                </div>
+
+                <div class="info-box warning">
+                    <h3>Kritische Warnsignale</h3>
+                    <p><strong>LLM wird fälschlicherweise empfohlen wenn:</strong></p>
+                    <ul>
+                        <li>Es sich um strukturierte, tabellarische Daten handelt</li>
+                        <li>Numerische Vorhersagen oder Optimierung gefragt sind</li>
+                        <li>Die Aufgabe Klassifikation mit unter 50 klar definierten Kategorien ist</li>
+                        <li>Deterministische, wiederholbare Outputs erforderlich sind</li>
+                        <li>Budget unter CHF 10.000 monatlich für Betrieb liegt bei hohen Query-Volumen</li>
+                    </ul>
+                    <p style="margin-top: 24px;"><strong>LLM wird zu Unrecht abgelehnt wenn:</strong></p>
+                    <ul>
+                        <li>Natürliche Sprachgenerierung erforderlich ist</li>
+                        <li>Semantisches Verständnis komplexer Texte benötigt wird</li>
+                        <li>Kontext und Nuancen interpretiert werden müssen</li>
+                        <li>Die Alternative regelbasierte Systeme mit über 100 sich ändernden Regeln wären</li>
+                    </ul>
+                </div>
+
+                <div class="info-box decision-matrix">
+                    <h3>Kernerkenntnis für die Beratungspraxis</h3>
+                    <p>In Dienstleistungsunternehmen fallen <strong>70 bis 80 Prozent der Use Cases in die Kategorien regelbasiert oder klassisches ML</strong>. Nur 20 bis 30 Prozent rechtfertigen tatsächlich LLM-Einsatz.</p>
+                    <p>LLMs werden jedoch in etwa 80 Prozent der Erstgespräche als primäre Lösung genannt, weil sie medial präsent sind. Die zentrale Aufgabe der Beratung liegt darin, diese Erwartungen auf realistische, wirtschaftliche und technisch angemessene Lösungen umzulenken.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>ML-Implementierungsleitfaden für Schweizer KMU · 2025</p>
+        </div>
+    </footer>
+</body>
+</html>
